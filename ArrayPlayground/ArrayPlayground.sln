@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArrayPlayground", "ArrayPlayground\ArrayPlayground.csproj", "{C9A41BB3-FE2B-4818-8D3D-544CBA413E5F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelperLibrary", "HelperLibrary\HelperLibrary.csproj", "{228E213E-EFC1-45A4-B4BB-3302CE58553B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C9A41BB3-FE2B-4818-8D3D-544CBA413E5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9A41BB3-FE2B-4818-8D3D-544CBA413E5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9A41BB3-FE2B-4818-8D3D-544CBA413E5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9A41BB3-FE2B-4818-8D3D-544CBA413E5F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{228E213E-EFC1-45A4-B4BB-3302CE58553B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{228E213E-EFC1-45A4-B4BB-3302CE58553B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{228E213E-EFC1-45A4-B4BB-3302CE58553B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{228E213E-EFC1-45A4-B4BB-3302CE58553B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
