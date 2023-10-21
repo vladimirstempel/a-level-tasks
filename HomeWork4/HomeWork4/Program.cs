@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text.Json;
 using HomeWork4;
 
 int[] randomArray = ArrayService.GetRandomIntArray();
