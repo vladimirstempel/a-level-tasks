@@ -4,10 +4,14 @@ using UtilityLibraries;
 
 public static class ArrayService
 {
+    private const int DefaultRandomMin = 1;
+    private const int DefaultRandomMax = 1;
+
     private static readonly char[] Alphabet = "abcdefghijklmnopqrstuvwxyz".ToCharArray();
     private static readonly List<char> CharsToUppercase = new() { 'a', 'e', 'i', 'd', 'h', 'j' };
 
-    public static int[] GetRandomIntArray()
+
+    public static int[] GetRandomIntArray(int min = DefaultRandomMin, int max = DefaultRandomMax)
     {
         int arrayLength;
 
@@ -26,7 +30,7 @@ public static class ArrayService
 
         var array = new int[arrayLength];
 
-        array.FillArrayWithRandomInt(1, 26);
+        array.FillArrayWithRandomInt(min, max);
 
         return array;
     }
