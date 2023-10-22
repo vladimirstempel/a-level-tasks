@@ -10,7 +10,6 @@ public static class ArrayService
     private static readonly char[] Alphabet = "abcdefghijklmnopqrstuvwxyz".ToCharArray();
     private static readonly List<char> CharsToUppercase = new() { 'a', 'e', 'i', 'd', 'h', 'j' };
 
-
     public static int[] GetRandomIntArray(int min = DefaultRandomMin, int max = DefaultRandomMax)
     {
         int arrayLength;
@@ -26,7 +25,8 @@ public static class ArrayService
                 Console.Clear();
                 Console.WriteLine("Please use integers only!");
             }
-        } while (arrayLength == 0);
+        }
+        while (arrayLength == 0);
 
         var array = new int[arrayLength];
 
@@ -37,25 +37,26 @@ public static class ArrayService
 
     public static int[] GetEvenIntArray(int[] array)
     {
-        return array.Where(number => (number % 2) == 0).ToArray();
+        return array.Where(number => number % 2 == 0).ToArray();
     }
 
     public static int[] GetOddIntArray(int[] array)
     {
-        return array.Where(number => (number % 2) != 0).ToArray();
+        return array.Where(number => number % 2 != 0).ToArray();
     }
 
     public static char[] GetCharsFromNumbers(int[] array)
     {
-        char[] result = array.Select(number =>
-        {
-            if (CharsToUppercase.Contains(Alphabet[number]))
+        char[] result = array.Select(
+            number =>
             {
-                return char.ToUpper(Alphabet[number]);
-            }
+                if (CharsToUppercase.Contains(Alphabet[number]))
+                {
+                    return char.ToUpper(Alphabet[number]);
+                }
 
-            return Alphabet[number];
-        }).ToArray();
+                return Alphabet[number];
+            }).ToArray();
 
         return result;
     }
