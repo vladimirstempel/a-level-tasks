@@ -5,7 +5,7 @@ using UtilityLibraries;
 public static class ArrayService
 {
     private const int DefaultRandomMin = 1;
-    private const int DefaultRandomMax = 1;
+    private const int DefaultRandomMax = 26;
 
     private static readonly char[] Alphabet = "abcdefghijklmnopqrstuvwxyz".ToCharArray();
     private static readonly List<char> CharsToUppercase = new() { 'a', 'e', 'i', 'd', 'h', 'j' };
@@ -58,5 +58,10 @@ public static class ArrayService
         }).ToArray();
 
         return result;
+    }
+
+    public static int CountUppercaseFromArray(char[] array)
+    {
+        return array.Count(char.IsUpper);
     }
 }
