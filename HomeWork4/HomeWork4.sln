@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HomeWork4", "HomeWork4\HomeWork4.csproj", "{3A15A3D6-96BB-4569-9A2D-8B0E86B14D76}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelperLibrary", "..\ArrayPlayground\HelperLibrary\HelperLibrary.csproj", "{4D58E265-469F-4E6B-83F9-44408D098A83}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3A15A3D6-96BB-4569-9A2D-8B0E86B14D76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A15A3D6-96BB-4569-9A2D-8B0E86B14D76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A15A3D6-96BB-4569-9A2D-8B0E86B14D76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A15A3D6-96BB-4569-9A2D-8B0E86B14D76}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D58E265-469F-4E6B-83F9-44408D098A83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D58E265-469F-4E6B-83F9-44408D098A83}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D58E265-469F-4E6B-83F9-44408D098A83}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D58E265-469F-4E6B-83F9-44408D098A83}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
