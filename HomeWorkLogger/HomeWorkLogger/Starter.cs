@@ -8,38 +8,36 @@ public static class Starter
     public static void Run()
     {
         Logger.Logger logger = Logger.Logger.Instance;
+        var actionList = new[]
+        {
+            Actions.LogInfo,
+            Actions.LogWarning,
+            Actions.ThrowError
+        };
+        
         var runTimes = 100;
         var random = new Random();
-        var randomMin = 1;
-        var randomMax = 4;
-        var errorMessage = "Action failed by a reason: ";
+        var shuffled = actionList
+            .Select(method => Tuple.Create(random.Next(), method))
+            .OrderBy(tuple => tuple.Item1)
+            .Select(tuple => tuple.Item2);
+        
+        var errorMessage = "Action failed by a reason:";
 
         for (var i = 0; i < runTimes; i++)
         {
-            var randomNumber = random.Next(randomMin, randomMax);
             Result result = new Result();
 
-            switch ((ActionMethod)randomNumber)
-            {
-                case ActionMethod.Info:
-                    result = Actions.LogInfo();
-                    break;
-                case ActionMethod.Warning:
-                    result = Actions.LogWarning();
-                    break;
-                case ActionMethod.Error:
-                    result = Actions.ThrowError();
-                    break;
-            }
+            result = shuffled.First().Invoke();
 
             if (!result.Status)
             {
-                logger.Write(Level.Error, result.Error);
+                logger.Write(Level.Error, $"{errorMessage} {result.Error}");
             }
         }
         
-        logger.WriteToFile(Level.Info);
-        logger.WriteToFile(Level.Warning);
-        logger.WriteToFile(Level.Error);
+        logger.WriteLogsToFile(Level.Info);
+        logger.WriteLogsToFile(Level.Warning);
+        logger.WriteLogsToFile(Level.Error);
     }
 }

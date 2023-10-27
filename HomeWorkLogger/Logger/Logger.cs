@@ -1,32 +1,25 @@
 ﻿using System.Collections.ObjectModel;
 using System.Text;
-using Microsoft.VisualBasic;
 
 namespace Logger;
 
 public sealed class Logger
 {
-    private static Logger _instance = null;
+    private static readonly Logger instance = new();
+    
     private readonly string _logsDir = ".\\logs\\";
     private readonly string _fileExtension = ".txt";
-    private Dictionary<Level, Collection<string>> Logs = new Dictionary<Level, Collection<string>>();
+    private Dictionary<Level, Collection<string>> Logs = new();
+
+    static Logger()
+    {
+    }
 
     private Logger()
     {
     }
 
-    public static Logger Instance
-    {
-        get
-        {
-            if (_instance == null)
-            {
-                _instance = new Logger();
-            }
-
-            return _instance;
-        }
-    }
+    public static Logger Instance => instance;
 
     public void Write(Level logLevel, string message)
     {
@@ -40,55 +33,55 @@ public sealed class Logger
 
         Console.Write(stringBuilder.ToString());
 
-        this.SaveLog(logLevel, stringBuilder.ToString());
+        SaveLog(logLevel, stringBuilder.ToString());
     }
 
     public Dictionary<Level, Collection<string>> GetLogs()
     {
-        return this.Logs;
+        return Logs;
     }
 
     public string GetLogsAsText(Level level)
     {
-        if (this.Logs.TryGetValue(level, out var logs))
+        if (Logs.TryGetValue(level, out var logs))
         {
             return string.Join("", logs);
         }
-        
+
         return "";
     }
 
-    public void WriteToFile(Level level)
+    public void WriteLogsToFile(Level level)
     {
         var stringBuilder = new StringBuilder();
         stringBuilder
-            .Append(this._logsDir)
-            .Append($"{level}")
-            .Append(this._fileExtension);
+            .Append(_logsDir)
+            .Append(level.ToString())
+            .Append(_fileExtension);
 
-        if (!Directory.Exists(this._logsDir))
+        if (!Directory.Exists(_logsDir))
         {
-            Directory.CreateDirectory(this._logsDir);
+            Directory.CreateDirectory(_logsDir);
         }
-        
-        File.WriteAllText(stringBuilder.ToString(), this.GetLogsAsText(level));
+
+        File.WriteAllText(stringBuilder.ToString(), GetLogsAsText(level));
     }
 
     private void SaveLog(Level logLevel, string log)
     {
-        if (this.Logs.TryGetValue(logLevel, out var logs))
+        if (Logs.TryGetValue(logLevel, out var logs))
         {
             logs.Add(log);
-            
-            this.Logs.TryAdd(logLevel, logs);
+
+            Logs.TryAdd(logLevel, logs);
         }
         else
         {
             var initialLogs = new Collection<string>();
-            
+
             initialLogs.Add(log);
-            
-            this.Logs.Add(logLevel, initialLogs);
+
+            Logs.Add(logLevel, initialLogs);
         }
     }
 }

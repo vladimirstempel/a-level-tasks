@@ -13,7 +13,7 @@ public static class Actions
         
         result.Status = true;
         
-        Logger.Write(Level.Info, $"Start method CallInfo: {result.Status}");
+        Logger.Write(Level.Info, $"Start method LogInfo: {result.Status}");
         
         return result;
     }
@@ -24,7 +24,7 @@ public static class Actions
         
         result.Status = true;
         
-        Logger.Write(Level.Warning, $"Skipped logic in method CallWarning: {result.Status}");
+        Logger.Write(Level.Warning, $"Skipped logic in method LogWarning: {result.Status}");
         
         return result;
     }

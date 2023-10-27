@@ -2,7 +2,7 @@
 
 public class Result
 {
-    public string Error;
+    public string? Error;
 
     public bool Status { get; set; }
 }
