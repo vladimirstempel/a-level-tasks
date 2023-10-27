@@ -26,7 +26,7 @@ public static class Starter
 
         for (var i = 0; i < runTimes; i++)
         {
-            Result result = new Result();
+            Result result;
 
             result = shuffled.First().Invoke();
 

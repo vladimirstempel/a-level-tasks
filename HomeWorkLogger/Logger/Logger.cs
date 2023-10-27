@@ -6,7 +6,7 @@ namespace Logger;
 public sealed class Logger
 {
     private static readonly Logger instance = new();
-    
+
     private readonly string _logsDir = ".\\logs\\";
     private readonly string _fileExtension = ".txt";
     private Dictionary<Level, Collection<string>> Logs = new();
@@ -54,6 +54,7 @@ public sealed class Logger
     public void WriteLogsToFile(Level level)
     {
         var stringBuilder = new StringBuilder();
+
         stringBuilder
             .Append(_logsDir)
             .Append(level.ToString())
