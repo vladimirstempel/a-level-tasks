@@ -12,27 +12,14 @@ public class ProductService
         _productRepository = productRepository;
     }
 
-    public string AddProduct(string title, string description, double price)
-    {
-        var id = _productRepository.AddProduct(title, description, price);
-
-        return id;
-    }
-
     public Product GetProduct(string id)
     {
         var product = _productRepository.GetProduct(id);
-
-        if (product == null)
-        {
-            return null;
-        }
 
         return new Product()
         {
             Id = product.Id,
             Title = product.Title,
-            Description = product.Description,
             Price = product.Price
         };
     }
@@ -40,11 +27,6 @@ public class ProductService
     public string GetProductTitle(string id)
     {
         var product = GetProduct(id);
-
-        if (product == null)
-        {
-            return null;
-        }
 
         return product.Title;
     }
@@ -56,7 +38,6 @@ public class ProductService
             {
                 Id = product.Id,
                 Title = product.Title,
-                Description = product.Description,
                 Price = product.Price
             }).ToArray();
     }

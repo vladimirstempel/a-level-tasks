@@ -13,22 +13,6 @@ public class ProductRepository
         MockProducts();
     }
 
-    public string AddProduct(string title, string description, double price)
-    {
-        var product = new ProductEntity()
-        {
-            Id = Guid.NewGuid().ToString(),
-            Title = title,
-            Description = description,
-            Price = price
-        };
-
-        _mockStorage[_mockStorageCursor] = product;
-        _mockStorageCursor++;
-        
-        return product.Id;
-    }
-
     public ProductEntity GetProduct(string id)
     {
         return _mockStorage.SingleOrDefault((product) => product.Id == id);
@@ -45,8 +29,21 @@ public class ProductRepository
 
         foreach (var product in productsList)
         {
-            AddProduct(product.Title, product.Description, product.Price);
+            AddProduct(product.Title, product.Price);
         }
+    }
+
+    private void AddProduct(string title, double price)
+    {
+        var product = new ProductEntity()
+        {
+            Id = Guid.NewGuid().ToString(),
+            Title = title,
+            Price = price
+        };
+
+        _mockStorage[_mockStorageCursor] = product;
+        _mockStorageCursor++;
     }
 
     private List<ProductEntity> LoadJson()

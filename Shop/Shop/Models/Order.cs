@@ -4,45 +4,48 @@ namespace Shop.Models;
 
 public class Order
 {
+    private readonly Cart _cart;
+    
     private readonly List<Product> _products;
-    private long _orderId;
+    private readonly long _orderId;
+    private readonly double _total;
 
-    public double Total
+    public Order(Cart cart)
     {
-        get
-        {
-            return _products.Sum((product) => product.Price);
-        }
-    }
-
-    public Order(List<Product> products)
-    {
-        _products = products;
+        _cart = cart;
+        _products = cart.GetCardItems(true);
         _orderId = GenerateOrderId();
+        _total = cart.Total;
     }
 
     public void PrintOrder()
     {
-        AnsiConsole.Markup("\n[green]Order succeeded![/]\n");
+        _cart.ClearCart();
         
         AnsiConsole.Markup("\nYour order ID is - [green]{0}[/]", _orderId);
-        
+
         AnsiConsole.WriteLine("\nYour order details:");
-        
+
         var table = new Table();
 
+        table.AddColumn(new TableColumn("#"));
         table.AddColumn(new TableColumn("Product Name"));
         table.AddColumn(new TableColumn("Product Price"));
 
-        foreach (var product in _products)
+        for (var i = 0; i < _products.Count; i++)
         {
-            var row = new []{ new Markup(product.Title), new Markup($"[yellow]{product.Price.ToString()}[/]") } ;
+            var row = new[]
+            {
+                new Markup((i + 1).ToString()),
+                new Markup(_products[i].Title),
+                new Markup($"[yellow]{_products[i].Price.ToString()}[/]")
+            };
             table.AddRow(row);
         }
 
         table.AddEmptyRow();
-        table.AddRow(new[] { new Markup("Total:"), new Markup($"[yellow]{Total.ToString()}[/]") });
-        
+        table.AddRow(new[] { new Markup(""), new Markup("Total:"), new Markup($"[yellow]{_total.ToString()}[/]") });
+
         AnsiConsole.Write(table);
     }
 

@@ -16,7 +16,7 @@ public class App
 
     public void Start()
     {
-        var selectedIdList = ProductSelectList();
+        var selectedIdList = AskToSelectProducts();
 
         if (selectedIdList.Count == 0)
         {
@@ -27,13 +27,11 @@ public class App
 
         var selectedProducts = selectedIdList.Select(id => _productService.GetProduct(id));
 
-        var cart = new Cart();
+        var cart = new Cart(selectedProducts.ToArray());
 
-        cart.AddProducts(selectedProducts.ToArray());
+        var cartProductNamesPrint = cart.GetCardItems().Select((p, index) => $"{index + 1}: {p.Title}");
 
-        var cardProductNames = cart.GetCardItems().Select(p => p.Title);
-
-        AnsiConsole.WriteLine("Products added to card: \n{0}", string.Join("\n", cardProductNames));
+        AnsiConsole.WriteLine("Products added to card: \n{0}", string.Join("\n", cartProductNamesPrint));
 
         AnsiConsole.WriteLine("\nTotal amount: {0}\n", cart.Total);
 
@@ -41,17 +39,21 @@ public class App
 
         if (!proceedWithCheckout)
         {
-            Console.WriteLine("Well see you next time. Press any key to exit...");
-            Console.ReadKey();
+            Console.WriteLine("Well, see you next time.");
+            Exit();
             return;
         }
 
-        var order = new Order(cart.GetCardItems());
+        var order = new Order(cart);
+        
+        AnsiConsole.Markup("\n[green]Your order has been placed! Thank you![/]\n");
         
         order.PrintOrder();
+
+        Exit();
     }
 
-    private List<string> ProductSelectList()
+    private List<string> AskToSelectProducts()
     {
         var products = _productService.GetProducts();
 
@@ -74,5 +76,11 @@ public class App
     private bool AskToBuy()
     {
         return AnsiConsole.Confirm("\nProceed with checkout?");
+    }
+
+    private void Exit()
+    {
+        AnsiConsole.WriteLine("Press any key to exit...");
+        Console.ReadKey();
     }
 }
