@@ -1,0 +1,52 @@
+﻿[
+  {
+    "Title": "Aquarium Whatchamacallit",
+    "Description": "Nunc pretium nisi aliquam rutrum elementum",
+    "Price": 121.99
+  },
+  {
+    "Title": "Sports Item",
+    "Description": "Donec blandit eros quis nunc facilisis, eu vestibulum nulla eleifend",
+    "Price": 194
+  },
+  {
+    "Title": "Camera Kit",
+    "Description": "Praesent sit amet tempor libero",
+    "Price": 138.95
+  },
+  {
+    "Title": "Game Thingamajig",
+    "Description": "Mauris auctor libero eu hendrerit consectetur",
+    "Price": 176.95
+  },
+  {
+    "Title": "Medicine Doodad",
+    "Description": "Integer mollis odio efficitur, finibus magna et, sollicitudin lorem",
+    "Price": 109.95
+  },
+  {
+    "Title": "Vitamin Gadget",
+    "Description": "Morbi semper fermentum mauris, aliquam suscipit metus fermentum nec",
+    "Price": 114.99
+  },
+  {
+    "Title": "Sports Paraphernalia",
+    "Description": "Donec eu cursus turpis",
+    "Price": 161.99
+  },
+  {
+    "Title": "Swimming Device",
+    "Description": "Sed eu dignissim diam",
+    "Price": 66.99
+  },
+  {
+    "Title": "Outdoors Whatchamacallit",
+    "Description": "In molestie tortor sit amet orci dapibus, sed pellentesque velit laoreet",
+    "Price": 173.95
+  },
+  {
+    "Title": "Toy Component",
+    "Description": "Vivamus venenatis tempus nulla",
+    "Price": 145
+  }
+]
