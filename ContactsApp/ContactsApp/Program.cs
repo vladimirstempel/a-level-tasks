@@ -1,4 +1,6 @@
-﻿using ContactCollection;
+﻿using System;
+using System.Linq;
+using ContactCollection;
 
 public sealed class Program
 {
