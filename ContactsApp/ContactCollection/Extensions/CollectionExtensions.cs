@@ -1,4 +1,6 @@
-﻿using ContactCollection.Models;
+﻿using System.Collections.Generic;
+using System.Linq;
+using ContactCollection.Models;
 
 namespace ContactCollection.Extensions;
 

@@ -1,4 +1,6 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using ContactCollection.Enums;
 using ContactCollection.Models;
 using ContactCollection.Extensions;
