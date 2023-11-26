@@ -2,13 +2,15 @@
 using System.Linq;
 using ContactCollection;
 
-public sealed class Program
+namespace ContactsApp;
+
+public static class Program
 {
     public static void Main()
     {
         // Fixes ukrainian symbols in console
         Console.OutputEncoding = System.Text.Encoding.Default;
-        
+
         ContactList contactList = new()
         {
             { "Володимир", "+380730115333" },
@@ -26,7 +28,7 @@ public sealed class Program
             { "12sadasd", "0931233256" },
             { "##sdasd", "0931666562" }
         };
-        
+
         foreach (var keyValue in contactList)
         {
             Console.WriteLine(
@@ -39,7 +41,7 @@ public sealed class Program
         var foundContact = contactList.SearchByName("As");
 
         Console.WriteLine("\nFound Contact: Name - {0}, Number - {1}", foundContact?.Name, foundContact?.Number);
-        
+
         Console.WriteLine("\nContacts count: {0}", contactList.Count());
     }
 }

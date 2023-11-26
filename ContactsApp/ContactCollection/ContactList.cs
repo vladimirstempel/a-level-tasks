@@ -3,26 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using ContactCollection.Enums;
 using ContactCollection.Models;
-using ContactCollection.Extensions;
 
 namespace ContactCollection;
 
 public sealed class ContactList : IEnumerable<KeyValuePair<string, List<Contact>>>
 {
     private readonly Dictionary<string, List<Contact>> _contacts = new();
-    private readonly Dictionary<SupportedLanguages, string> _sections = new();
 
     public ContactList()
     {
-        _sections.Add(SupportedLanguages.English, "English");
-        _sections.Add(SupportedLanguages.Ukrainian, "Ukrainian");
-        _sections.Add(SupportedLanguages.Number, "Number");
-        _sections.Add(SupportedLanguages.None, "#");
-        
-        _contacts.Add(_sections[SupportedLanguages.English], new List<Contact>());
-        _contacts.Add(_sections[SupportedLanguages.Ukrainian], new List<Contact>());
-        _contacts.Add(_sections[SupportedLanguages.Number], new List<Contact>());
-        _contacts.Add(_sections[SupportedLanguages.None], new List<Contact>());
+        _contacts.Add(GetSection(SupportedLanguages.English), new List<Contact>());
+        _contacts.Add(GetSection(SupportedLanguages.Ukrainian), new List<Contact>());
+        _contacts.Add(GetSection(SupportedLanguages.Number), new List<Contact>());
+        _contacts.Add(GetSection(SupportedLanguages.None), new List<Contact>());
     }
 
     public int Count()
@@ -32,18 +25,18 @@ public sealed class ContactList : IEnumerable<KeyValuePair<string, List<Contact>
         {
             count += keyValue.Value.Count;
         }
-    
+
         return count;
     }
 
     public void Add(string name, string number)
     {
         var firstChar = name.FirstOrDefault();
-        
+
         AddNumberToList(name, number, GetLanguageByChar(firstChar));
     }
 
-    public Contact? SearchByName(string name)
+    public Contact SearchByName(string name)
     {
         var firstChar = name.FirstOrDefault();
 
@@ -55,31 +48,30 @@ public sealed class ContactList : IEnumerable<KeyValuePair<string, List<Contact>
         if (_contacts.TryGetValue(language, out var contactList))
         {
             contactList.Add(new Contact(name, number));
-            _contacts[language] = contactList.OrderByContactName();
+            _contacts[language] = contactList.OrderBy(c => c.Name).ToList();
         }
     }
 
     private string GetLanguageByChar(char firstChar)
     {
-        
         if (char.IsDigit(firstChar))
         {
-            return _sections[SupportedLanguages.Number];
+            return GetSection(SupportedLanguages.Number);
         }
 
         if (IsUkrainianLetter(firstChar))
         {
-            return _sections[SupportedLanguages.Ukrainian];
+            return GetSection(SupportedLanguages.Ukrainian);
         }
 
         if (IsEnglishLetter(firstChar))
         {
-            return _sections[SupportedLanguages.English];
+            return GetSection(SupportedLanguages.English);
         }
 
-        return _sections[SupportedLanguages.None];
+        return GetSection(SupportedLanguages.None);
     }
-    
+
     private bool IsEnglishLetter(char c)
     {
         // Checking if the character falls within the English alphabet range
@@ -89,7 +81,23 @@ public sealed class ContactList : IEnumerable<KeyValuePair<string, List<Contact>
     private bool IsUkrainianLetter(char c)
     {
         // Check if the character is within the Ukrainian alphabet range
-        return (c >= 'А' && c <= 'Я') || (c >= 'а' && c <= 'я') || c == 'Ї' || c == 'ї' || c == 'І' || c == 'і' || c == 'Є' || c == 'є';
+        return (c >= 'А' && c <= 'Я') || (c >= 'а' && c <= 'я') || c == 'Ї' || c == 'ї' || c == 'І' || c == 'і' ||
+               c == 'Є' || c == 'є';
+    }
+
+    private string GetSection(SupportedLanguages lang)
+    {
+        switch (lang)
+        {
+            case SupportedLanguages.English:
+                return "English";
+            case SupportedLanguages.Ukrainian:
+                return "Ukrainian";
+            case SupportedLanguages.Number:
+                return "Number";
+            default:
+                return "#";
+        }
     }
 
     public IEnumerator<KeyValuePair<string, List<Contact>>> GetEnumerator()
