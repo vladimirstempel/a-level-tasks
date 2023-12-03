@@ -1,13 +1,23 @@
-﻿using SaladMaker.Models.Abstractions;
-
-namespace SaladMaker.Models;
+﻿namespace SaladMaker.Models;
 
 public class Salad
 {
-    public readonly IIngredient[] IngredientEntities;
+    private Vegetable[] vegetables;
 
-    public Salad(IIngredient[] ingredients)
+    public Vegetable[] Vegetables => vegetables;
+
+    public Salad(Vegetable[] veggies)
     {
-        IngredientEntities = ingredients;
+        vegetables = veggies;
+    }
+
+    public int CalculateTotalCalories()
+    {
+        int totalCalories = 0;
+        foreach (var veg in vegetables)
+        {
+            totalCalories += veg.CaloriesPer100g;
+        }
+        return totalCalories;
     }
 }
