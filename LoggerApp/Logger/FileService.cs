@@ -43,23 +43,27 @@ public class FileService
 
     private void ProcessOldFiles(string dirPath)
     {
-        if (Directory.Exists(dirPath))
+        if (!Directory.Exists(dirPath))
         {
-            var files = Directory.GetFiles(dirPath);
+            return;
+        }
 
-            if (files.Length > 3)
+        var files = Directory.GetFiles(dirPath);
+
+        if (files.Length <= 3)
+        {
+            return;
+        }
+
+        var sortedFiles = files.OrderBy(x => File.GetCreationTime(x)).ToArray();
+        for (var i = 0; i < sortedFiles.Length; i++)
+        {
+            if (i >= files.Length - 3)
             {
-                var sortedFiles = files.OrderBy(x => File.GetCreationTime(x)).ToArray();
-                for (var i = 0; i < sortedFiles.Length; i++)
-                {
-                    if (i >= files.Length - 3)
-                    {
-                        break;
-                    }
-
-                    File.Delete(files[i]);
-                }
+                break;
             }
+
+            File.Delete(files[i]);
         }
     }
 }

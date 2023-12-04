@@ -16,7 +16,7 @@ public sealed class Logger
 
         stringBuilder
             .Append($"{DateTime.Now:MM/dd/yyyy hh:mm:ss.fff tt}: ")
-            .Append($"{(Level)logLevel}: ")
+            .Append($"{logLevel}: ")
             .Append(message)
             .AppendLine();
 
@@ -37,7 +37,7 @@ public sealed class Logger
             return string.Join("", logs);
         }
 
-        return "";
+        return string.Empty;
     }
 
     private void SaveLog(Level logLevel, string log)
