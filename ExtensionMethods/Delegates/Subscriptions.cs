@@ -1,8 +1,8 @@
 ﻿namespace ExtensionMethods;
 
-public delegate int Operation(int x, int y);
+internal delegate int Operation(int x, int y);
 
-internal static class Delegates
+internal static class Subscriptions
 {
     public static int Sum(int x, int y)
     {

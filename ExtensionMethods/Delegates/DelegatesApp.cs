@@ -6,8 +6,8 @@ public static class DelegatesApp
 {
     public static void Start()
     {
-        Operation operation = Delegates.Sum;
-        operation += Delegates.Sum;
+        Operation operation = Subscriptions.Sum;
+        operation += Subscriptions.Sum;
 
         var result = Calc(operation, 10, 10);
 
