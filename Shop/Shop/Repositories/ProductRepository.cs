@@ -51,6 +51,8 @@ public class ProductRepository
         var reader = new StreamReader("products.mock.json");
 
         string json = reader.ReadToEnd();
+        
+        reader.Dispose();
 
         return JsonConvert.DeserializeObject<List<ProductEntity>>(json);
     }
