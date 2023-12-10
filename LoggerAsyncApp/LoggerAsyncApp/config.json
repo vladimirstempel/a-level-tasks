@@ -1,0 +1,7 @@
+﻿{
+  "BackupAfterEntries": 10,
+  "BackupDir": ".\\Backup\\",
+  "LogDir": ".\\Log\\",
+  "FileExtension": ".txt",
+  "ArchiveExtension": ".zip"
+}
