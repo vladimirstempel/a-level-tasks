@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using ReqresClient.Services;
 using ReqresClient.Services.Abstractions;
 
 namespace ReqresClient;
@@ -9,11 +11,13 @@ public class App
 {
     private readonly IUserService _userService;
     private readonly IRegisterService _registerService;
+    private readonly ILogger<App> _logger;
 
-    public App(IUserService userService, IRegisterService registerService)
+    public App(IUserService userService, IRegisterService registerService, ILogger<App> logger)
     {
         _userService = userService;
         _registerService = registerService;
+        _logger = logger;
     }
 
     public async Task Start()
@@ -21,7 +25,7 @@ public class App
         var queryParams = new Dictionary<string, int> { { "page", 2 } };
         var delayQueryParams = new Dictionary<string, int> { { "page", 2 }, { "delay", 3 } };
 
-        Console.WriteLine("Start user endpoints-------------------------------------------");
+        _logger.LogInformation("Start user endpoints-------------------------------------------");
         var users = await _userService.GetListOfUsers(queryParams);
         var user = await _userService.GetUserById(2);
         var userNotFound = await _userService.GetUserById(213);
@@ -30,13 +34,13 @@ public class App
         var userInfoPatched = await _userService.PatchUser(userInfo, "agent?");
         var isUserInfoDeleted = await _userService.DeleteUser(userInfo.Id);
 
-        Console.WriteLine("Start heavy request--------------------------------------------");
+        _logger.LogInformation("Start heavy request--------------------------------------------");
         var delayedUsers = await _userService.GetListOfUsers(delayQueryParams);
-        Console.WriteLine("End heavy request----------------------------------------------");
+        _logger.LogInformation("End heavy request----------------------------------------------");
 
         var credentials = (Email: "eve.holt@reqres.in", Password: "cityslicka");
 
-        Console.WriteLine("Start auth endpoints-------------------------------------------");
+        _logger.LogInformation("Start auth endpoints-------------------------------------------");
         var registeredUser = await _registerService.Register(credentials.Email, credentials.Password);
         var registerFailed = await _registerService.RegisterFailed(credentials.Email);
 

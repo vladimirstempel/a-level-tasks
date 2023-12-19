@@ -47,7 +47,8 @@ public class UserService : IUserService
         var result =
             await _httpClientService.GetAsync<BaseResponse<UserDto>>($"{_options.Host}{_userApi}{id}");
 
-        _logger.LogInformation(result?.Data != null
+        _logger.LogInformation(
+            result?.Data != null
             ? $"User with id = {result.Data.Id} was found"
             : $"User with id = {id} not found");
 
