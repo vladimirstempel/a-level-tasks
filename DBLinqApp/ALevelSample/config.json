@@ -1,0 +1,8 @@
+{
+  "Migration": {
+    "IsNeedMigration":  true
+  },
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=localhost,1434;Database=eShop;User ID=sa;Password=1My_password"
+  }
+}
