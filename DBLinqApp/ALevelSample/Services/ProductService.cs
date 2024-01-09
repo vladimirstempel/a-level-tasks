@@ -1,5 +1,8 @@
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using ALevelSample.Data;
+using ALevelSample.Data.Entities;
 using ALevelSample.Models;
 using ALevelSample.Repositories.Abstractions;
 using ALevelSample.Services.Abstractions;
@@ -46,6 +49,43 @@ public class ProductService : BaseDataService<ApplicationDbContext>, IProductSer
             Name = result.Name,
             Price = result.Price
         };
+    }
+
+    public async Task<Pagination<Product, ProductEntity>> GetProductsAsync()
+    {
+        var paginationRepository = await _productRepository.GetProductsAsync();
+        var pagination = new Pagination<Product, ProductEntity>(paginationRepository);
+
+        Pagination<Product, ProductEntity>.Mapper mapToProduct = (map) =>
+        {
+            map(
+                x => new Product()
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Price = x.Price
+                });
+        };
+
+        pagination.OnInit += mapToProduct;
+        pagination.OnNext += mapToProduct;
+        pagination.OnPrev += mapToProduct;
+
+        pagination.Init();
+
+        return pagination;
+    }
+
+    public async Task<List<Product>> FilterProductsAsync(ProductFilters filters)
+    {
+        var entities = await _productRepository.FilterProductsAsync(filters);
+        return entities.Select(
+            x => new Product()
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Price = x.Price
+            }).ToList();
     }
 
     public async Task<int?> UpdateProduct(int id, string name, double price)

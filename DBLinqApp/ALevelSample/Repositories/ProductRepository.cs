@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using ALevelSample.Data;
 using ALevelSample.Data.Entities;
@@ -12,8 +14,7 @@ public class ProductRepository : IProductRepository
 {
     private readonly ApplicationDbContext _dbContext;
 
-    public ProductRepository(
-        IDbContextWrapper<ApplicationDbContext> dbContextWrapper)
+    public ProductRepository(IDbContextWrapper<ApplicationDbContext> dbContextWrapper)
     {
         _dbContext = dbContextWrapper.DbContext;
     }
@@ -35,6 +36,46 @@ public class ProductRepository : IProductRepository
     public async Task<ProductEntity?> GetProductAsync(int id)
     {
         return await _dbContext.Products.FirstOrDefaultAsync(f => f.Id == id);
+    }
+
+    public async Task<IPaginationRepository<ProductEntity>> GetProductsAsync()
+    {
+        var pagination = await new PaginationRepository<ProductEntity>(_dbContext.Products).Paginate();
+        return pagination;
+    }
+
+    public async Task<List<ProductEntity>> FilterProductsAsync(ProductFilters filters)
+    {
+        IQueryable<ProductEntity> products = _dbContext.Products;
+
+        if (filters.Ordering == OrderDirection.Asc)
+        {
+        }
+
+        switch (filters.Ordering)
+        {
+            case OrderDirection.Asc:
+                products = products.OrderBy(x => x.Id);
+                break;
+            case OrderDirection.Desc:
+                products = products.OrderByDescending(x => x.Id);
+                break;
+            default:
+                products = products.OrderBy(x => x.Id);
+                break;
+        }
+
+        if (filters.Name != null)
+        {
+            products = products.Where(x => x.Name == filters.Name);
+        }
+
+        if (filters.Price != null)
+        {
+            products = products.Where(x => x.Price.Equals(filters.Price));
+        }
+
+        return await products.ToListAsync();
     }
 
     public async Task<int?> UpdateProductAsync(int id, string name, double price)

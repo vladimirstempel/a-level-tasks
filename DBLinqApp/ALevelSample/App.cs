@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using ALevelSample.Models;
 using ALevelSample.Services.Abstractions;
@@ -39,7 +41,13 @@ public class App
         var product1 = await _productService.AddProductAsync("product1", 4);
         var product2 = await _productService.AddProductAsync("product2", 7);
         var product3 = await _productService.AddProductAsync("product3", 9);
-        var product4 = await _productService.AddProductAsync("product4", 9);
+        var product4 = await _productService.AddProductAsync("product4", 19);
+        var product5 = await _productService.AddProductAsync("product5", 16);
+        var product6 = await _productService.AddProductAsync("product6", 31);
+        var product7 = await _productService.AddProductAsync("product7", 53);
+        var product8 = await _productService.AddProductAsync("product8", 32);
+        var product9 = await _productService.AddProductAsync("product9", 21);
+        var product10 = await _productService.AddProductAsync("product10", 11);
 
         var product3Updated = await _productService.UpdateProduct(product3, "product3 Updated", 10);
 
@@ -114,5 +122,61 @@ public class App
         var order3Deleted = await _orderService.DeleteOrder(order3);
 
         var userOrder = await _orderService.GetOrderByUserIdAsync(userId);
+
+        var pagination = await _productService.GetProductsAsync();
+
+        var products = pagination.Items;
+
+        Console.WriteLine(
+            "Current Page: {3}, Current Items: {2}, Total Pages: {4}, Products: {0}, Total Items: {1}",
+            string.Join(", ", products.Select(p => p.Name)),
+            pagination.TotalItems,
+            products.Count,
+            pagination.CurrentPage,
+            pagination.TotalPages);
+
+        await pagination.Next();
+        var products2 = pagination.Items;
+
+        Console.WriteLine(
+            "Current Page: {3}, Current Items: {2}, Total Pages: {4}, Products: {0}, Total Items: {1}",
+            string.Join(", ", products2.Select(p => p.Name)),
+            pagination.TotalItems,
+            products2.Count,
+            pagination.CurrentPage,
+            pagination.TotalPages);
+
+        await pagination.Prev();
+        var products3 = pagination.Items;
+
+        Console.WriteLine(
+            "Current Page: {3}, Current Items: {2}, Total Pages: {4}, Products: {0}, Total Items: {1}",
+            string.Join(", ", products3.Select(p => p.Name)),
+            pagination.TotalItems,
+            products3.Count,
+            pagination.CurrentPage,
+            pagination.TotalPages);
+
+        var foundProduct = await _productService.GetProductAsync(product5);
+        var foundProduct2 = await _productService.GetProductAsync(product7);
+        var filters = new ProductFilters()
+        {
+            Name = foundProduct.Name,
+            Ordering = OrderDirection.Desc
+        };
+        var filters2 = new ProductFilters()
+        {
+            Price = foundProduct2.Price,
+            Ordering = OrderDirection.Desc
+        };
+        var filteredProducts = await _productService.FilterProductsAsync(filters);
+        var filteredProducts2 = await _productService.FilterProductsAsync(filters2);
+
+        filters.Ordering = OrderDirection.Asc;
+        var filteredProducts3 = await _productService.FilterProductsAsync(filters);
+
+        Console.WriteLine("Products filtered Desc: {0}", string.Join(", ", filteredProducts.Select(p => $"{p.Name} Id = {p.Id}")));
+        Console.WriteLine("Products filtered 2 Desc: {0}", string.Join(", ", filteredProducts2.Select(p => $"{p.Name} Id = {p.Id}")));
+        Console.WriteLine("Products filtered 3 Asc: {0}", string.Join(", ", filteredProducts3.Select(p => $"{p.Name} Id = {p.Id}")));
     }
 }
