@@ -4,16 +4,18 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ConsoleEFApp.Data.EntityConfigurations;
 
-public class BreedConfiguration : IEntityTypeConfiguration<Breed>
+public class BreedConfiguration : IEntityTypeConfiguration<BreedEntity>
 {
-    public void Configure(EntityTypeBuilder<Breed> builder)
+    public void Configure(EntityTypeBuilder<BreedEntity> builder)
     {
-        builder.HasKey(h => h.Id);
+        builder.Property(p => p.Id).ValueGeneratedOnAdd();
         builder.Property(p => p.BreedName).IsRequired();
         
-        builder.HasOne(h => h.Category)
-            .WithOne()
-            .HasForeignKey<Category>(c => c.Id)
-            .OnDelete(DeleteBehavior.NoAction);
+        builder.HasKey(h => h.Id);
+
+        builder
+            .HasMany<PetEntity>(h => h.Pets)
+            .WithOne(w => w.Breed)
+            .HasForeignKey(h => h.BreedId);
     }
 }
