@@ -1,0 +1,14 @@
+.page-content {
+    padding: 1rem 0;
+}
+
+.tab-content {
+    padding: 1rem;
+}
+
+.toast {
+    position: absolute;
+
+    right: 1rem;
+    bottom: 1rem;
+}
