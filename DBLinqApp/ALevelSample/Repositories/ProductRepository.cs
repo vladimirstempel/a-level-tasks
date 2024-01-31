@@ -48,10 +48,6 @@ public class ProductRepository : IProductRepository
     {
         IQueryable<ProductEntity> products = _dbContext.Products;
 
-        if (filters.Ordering == OrderDirection.Asc)
-        {
-        }
-
         switch (filters.Ordering)
         {
             case OrderDirection.Asc:
