@@ -1,4 +1,4 @@
-import React, { FC, ReactElement } from "react";
+import React, { FC, ReactElement, SyntheticEvent } from 'react'
 import {
   Box,
   Link,
@@ -14,10 +14,10 @@ import { routes } from "../../routes";
 import { NavLink } from "react-router-dom";
 
 const Navbar: FC = (): ReactElement => {
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const [anchorElNav, setAnchorElNav] = React.useState<HTMLButtonElement | null>(null);
 
-  const handleOpenNavMenu = (event: any) => {
-    setAnchorElNav(event.currentTarget);
+  const handleOpenNavMenu = (event: SyntheticEvent) => {
+    setAnchorElNav(event.currentTarget as HTMLButtonElement);
   };
 
   const handleCloseNavMenu = () => {

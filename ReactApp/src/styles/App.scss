@@ -1,0 +1,28 @@
+.app {
+  .modal-open-button {
+    position: fixed;
+    right: 2rem;
+    bottom: 2rem;
+  }
+
+  .date-picker-control {
+    margin-top: 0.5rem;
+    margin-bottom: 0.25rem;
+
+    &--full-width {
+      width: 100%
+    }
+  }
+
+  .avatar-preview {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+
+    .avatar-image {
+      height: 56px;
+      margin-top: 8px;
+      margin-bottom: 4px;
+    }
+  }
+}

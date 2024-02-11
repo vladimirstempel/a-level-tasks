@@ -1,20 +1,23 @@
 import React, { ReactElement, FC, useEffect, useState } from 'react'
-import { Box, CircularProgress, Container, Grid, Pagination } from '@mui/material'
-import * as userApi from '../../api/modules/users'
+import { Box, CircularProgress, Container, Fab, Grid, Pagination } from '@mui/material'
 import { IUser } from '../../interfaces/users'
 import UserCard from './components'
+import { getByPage, create } from '../../api/modules/users'
+import AddIcon from '@mui/icons-material/Add'
+import UserCreateDialog from './components/UserCreateDialog'
 
-const Home: FC<any> = (): ReactElement => {
+const Home: FC<unknown> = (): ReactElement => {
   const [users, setUsers] = useState<IUser[] | null>(null)
   const [totalPages, setTotalPages] = useState<number>(0)
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
 
   useEffect(() => {
     const getUser = async () => {
       try {
         setIsLoading(true)
-        const res = await userApi.getByPage(currentPage)
+        const res = await getByPage(currentPage)
         setUsers(res.data)
         setTotalPages(res.total_pages)
       } catch (e) {
@@ -26,6 +29,18 @@ const Home: FC<any> = (): ReactElement => {
     }
     getUser()
   }, [currentPage])
+
+  const openModal = () => {
+    setIsModalOpen(true)
+  }
+
+  const onModalClosed = async (formData: IUser | null) => {
+    setIsModalOpen(false)
+
+    if (formData) {
+      await create(formData)
+    }
+  }
 
   return (
     <Container>
@@ -51,6 +66,10 @@ const Home: FC<any> = (): ReactElement => {
         <Pagination sx={ { mb: 4 } } count={ totalPages } page={ currentPage }
                     onChange={ (event, page) => setCurrentPage(page) }/>
       </Box>
+      <Fab className='modal-open-button' color="primary" aria-label="add" onClick={openModal}>
+        <AddIcon/>
+      </Fab>
+      <UserCreateDialog open={isModalOpen} onClose={onModalClosed} />
     </Container>
   )
 }

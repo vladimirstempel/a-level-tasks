@@ -1,21 +1,31 @@
 import React, { ReactElement, FC, useEffect, useState } from 'react'
-import { Box, CircularProgress, Container, Grid, Pagination } from '@mui/material'
+import { Box, CircularProgress, Container, Fab, Grid, Pagination } from '@mui/material'
 import ResourceCard from './components'
-import { getByPage } from '../../api/modules/resource'
+import { create, getByPage } from '../../api/modules/resource'
 import { IResource } from '../../interfaces/resource'
+import '@styles/App.scss'
+import AddIcon from '@mui/icons-material/Add'
+import ResourceCreateDialog from './components/ResourceCreateDialog'
 
-const Resources: FC<any> = (): ReactElement => {
+const Resources: FC<unknown> = (): ReactElement => {
   const [resources, setResources] = useState<IResource[] | null>(null)
   const [totalPages, setTotalPages] = useState<number>(0)
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
 
   useEffect(() => {
     const getResource = async () => {
       try {
         setIsLoading(true)
         const res = await getByPage(currentPage)
-        setResources(res.data)
+        setResources([
+          ...res.data
+            .map(item => ({
+              ...item,
+              year: new Date(item.year, 0)
+            })),
+        ])
         setTotalPages(res.total_pages)
       } catch (e) {
         if (e instanceof Error) {
@@ -26,6 +36,21 @@ const Resources: FC<any> = (): ReactElement => {
     }
     getResource()
   }, [currentPage])
+
+  const openModal = () => {
+    setIsModalOpen(true)
+  }
+
+  const onModalClosed = async (formData: IResource | null) => {
+    setIsModalOpen(false)
+
+    if (formData) {
+      await create({
+        ...formData,
+        year: formData.year.getFullYear()
+      })
+    }
+  }
 
   return (
     <Container>
@@ -48,8 +73,13 @@ const Resources: FC<any> = (): ReactElement => {
           justifyContent: 'center'
         } }
       >
-        <Pagination sx={{mb: 4}} count={ totalPages } page={ currentPage } onChange={ (event, page) => setCurrentPage(page) }/>
+        <Pagination sx={ { mb: 4 } } count={ totalPages } page={ currentPage }
+                    onChange={ (event, page) => setCurrentPage(page) }/>
       </Box>
+      <Fab className='modal-open-button' color="primary" aria-label="add" onClick={openModal}>
+        <AddIcon/>
+      </Fab>
+      <ResourceCreateDialog open={isModalOpen} onClose={onModalClosed} />
     </Container>
   )
 }

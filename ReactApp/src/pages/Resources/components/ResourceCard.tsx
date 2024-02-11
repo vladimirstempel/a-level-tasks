@@ -16,6 +16,9 @@ const ResourceCard: FC<IResource> = (props): ReactElement => {
             { props.name }
           </Typography>
           <Typography variant="body2" color="text.secondary">
+            { props?.year.getFullYear() }
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
             { props?.pantone_value }
           </Typography>
         </CardContent>
