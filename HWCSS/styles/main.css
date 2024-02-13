@@ -1,0 +1,15 @@
+.page-wrapper > p {
+    color: blue;
+}
+
+.holder a[href^="https"] {
+    color: red;
+}
+
+.holder > ul > li:last-child {
+    background-color: green;
+}
+
+.holder ul + p {
+    font-size: 26px;
+}
