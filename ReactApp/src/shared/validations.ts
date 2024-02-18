@@ -1,4 +1,5 @@
 import * as Yup from 'yup'
+import { Credentials, RegistrationCredentials } from '../interfaces/credentials'
 
 export const userValidationSchema = Yup.object().shape({
   email: Yup.string()
@@ -26,4 +27,29 @@ export const resourceValidationSchema = Yup.object().shape({
   pantone_value: Yup.string()
     .required('Pantone value is required')
     .min(2, 'Pantone value must be at least 2 chars')
+})
+
+export const loginValidationSchema = Yup.object<Credentials>().shape({
+  email: Yup.string()
+    .required('Email is required')
+    .email('Incorrect email format'),
+  password: Yup.string()
+    .required('Password is required')
+    .min(3, 'Min 3 chars')
+    .max(25, 'Max 25 chars')
+})
+
+export const registrationValidationSchema = Yup.object<RegistrationCredentials>().shape({
+  email: Yup.string()
+    .required('Email is required')
+    .email('Incorrect email format'),
+  password: Yup.string()
+    .required('Password is required')
+    .min(3, 'Min 3 chars')
+    .max(25, 'Max 25 chars'),
+  confirmPassword: Yup.string()
+    .required('Password is required')
+    .min(3, 'Min 3 chars')
+    .max(25, 'Max 25 chars')
+    .oneOf([Yup.ref('password')], 'Passwords must match')
 })
