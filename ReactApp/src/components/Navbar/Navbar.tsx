@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, SyntheticEvent } from 'react'
+import React, { FC, ReactElement, SyntheticEvent, useContext } from 'react'
 import {
   Box,
   Link,
@@ -12,9 +12,12 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import { routes } from "../../routes";
 import { NavLink } from "react-router-dom";
+import { observer } from 'mobx-react'
+import { AuthContext } from '../../index'
 
 const Navbar: FC = (): ReactElement => {
   const [anchorElNav, setAnchorElNav] = React.useState<HTMLButtonElement | null>(null);
+  const auth = useContext(AuthContext)
 
   const handleOpenNavMenu = (event: SyntheticEvent) => {
     setAnchorElNav(event.currentTarget as HTMLButtonElement);
@@ -120,6 +123,21 @@ const Navbar: FC = (): ReactElement => {
                   {page.title}
                 </Link>
               ))}
+              {
+                auth.isLoggedIn &&
+                  <Link
+                    key='log-out'
+                    component={NavLink}
+                    to="/login"
+                    color="black"
+                    underline="none"
+                    variant="button"
+                    sx={{ fontSize: "large", marginLeft: "2rem" }}
+                    onClick={() => auth.logOut()}
+                  >
+                    Log out
+                  </Link>
+              }
             </Box>
           </Box>
         </Toolbar>
@@ -128,4 +146,4 @@ const Navbar: FC = (): ReactElement => {
   );
 };
 
-export default Navbar;
+export default observer(Navbar);

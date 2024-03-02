@@ -15,7 +15,6 @@ import { Controller, ErrorOption, useForm } from 'react-hook-form'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { resourceValidationSchema } from '../../../shared/validations'
-import {UserUpdateDialogProps} from '../../User/components/UserUpdateDialog'
 
 export interface ResourceUpdateDialogProps {
   open: boolean;
