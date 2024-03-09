@@ -11,10 +11,10 @@ public class ApplicationDbContext : DbContext
     {
     }
 
-    public DbSet<Pet> Pets { get; set; } = null!;
-    public DbSet<Category> Categories { get; set; } = null!;
-    public DbSet<Breed> Breeds { get; set; } = null!;
-    public DbSet<Location> Locations { get; set; } = null!;
+    public DbSet<PetEntity> Pets { get; set; } = null!;
+    public DbSet<CategoryEntity> Categories { get; set; } = null!;
+    public DbSet<BreedEntity> Breeds { get; set; } = null!;
+    public DbSet<LocationEntity> Locations { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -1,9 +1,13 @@
-﻿
-
-using ConsoleEFApp.Data;
+﻿using ConsoleEFApp.Data;
+using ConsoleEFApp.Data.Seeds;
+using ConsoleEFApp.Repositories;
+using ConsoleEFApp.Repositories.Abstractions;
+using ConsoleEFApp.Services;
+using ConsoleEFApp.Services.Abstractions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace ConsoleEFApp;
 
@@ -23,7 +27,13 @@ public static class Program
 
         var dbContext = provider.GetService<ApplicationDbContext>();
         
-        await dbContext!.Database.EnsureCreatedAsync();
+        var migrationSection = configuration.GetSection("Migration");
+        var isNeedMigration = migrationSection.GetSection("IsNeedMigration");
+
+        if (isNeedMigration.Value != null && bool.Parse(isNeedMigration.Value))
+        {
+            await dbContext!.Database.EnsureCreatedAsync();
+        }
 
         var app = provider.GetService<App>();
         await app!.Start();
@@ -33,10 +43,22 @@ public static class Program
     {
         var connectionString = configuration.GetConnectionString("DbConnection");
         
-        serviceCollection.AddDbContext<ApplicationDbContext>(opts
+        serviceCollection.AddDbContextFactory<ApplicationDbContext>(opts
             => opts.UseSqlServer(connectionString));
+        serviceCollection
+            .AddScoped<IDbContextWrapper<ApplicationDbContext>, DbContextWrapper<ApplicationDbContext>>();
 
         serviceCollection
+            .AddLogging(configure => configure.AddConsole())
+            .AddTransient<DataSeed>()
+            .AddTransient<IPetRepository, PetRepository>()
+            .AddTransient<IBreedRepository, BreedRepository>()
+            .AddTransient<ILocationRepository, LocationRepository>()
+            .AddTransient<ICategoryRepository, CategoryRepository>()
+            .AddTransient<IPetService, PetService>()
+            .AddTransient<IBreedService, BreedService>()
+            .AddTransient<ILocationService, LocationService>()
+            .AddTransient<ICategoryService, CategoryService>()
             .AddTransient<App>();
     }
 }
