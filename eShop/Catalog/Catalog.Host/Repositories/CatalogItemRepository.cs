@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Catalog.Host.Repositories;
 
-public class CatalogItemRepository : Repository<CatalogItem>, ICatalogItemRepository
+public class CatalogItemRepository : ICatalogItemRepository
 {
     private readonly ApplicationDbContext _dbContext;
     private readonly ILogger<CatalogItemRepository> _logger;
@@ -14,7 +14,6 @@ public class CatalogItemRepository : Repository<CatalogItem>, ICatalogItemReposi
     public CatalogItemRepository(
         IDbContextWrapper<ApplicationDbContext> dbContextWrapper,
         ILogger<CatalogItemRepository> logger)
-        : base(dbContextWrapper)
     {
         _dbContext = dbContextWrapper.DbContext;
         _logger = logger;
@@ -45,12 +44,56 @@ public class CatalogItemRepository : Repository<CatalogItem>, ICatalogItemReposi
             Description = description,
             Name = name,
             PictureFileName = pictureFileName,
-            Price = price
+            Price = price,
+            AvailableStock = availableStock
         });
 
         await _dbContext.SaveChangesAsync();
 
         return item.Entity.Id;
+    }
+
+    public async Task<int?> Update(int id, string name, string description, decimal price, int availableStock, int catalogBrandId, int catalogTypeId, string pictureFileName)
+    {
+        var item = await _dbContext.CatalogItems
+            .Where((item) => item.Id == id)
+            .FirstOrDefaultAsync();
+
+        if (item == null)
+        {
+            return null;
+        }
+
+        item.Id = id;
+        item.CatalogBrandId = catalogBrandId;
+        item.CatalogTypeId = catalogTypeId;
+        item.Description = description;
+        item.Name = name;
+        item.PictureFileName = pictureFileName;
+        item.Price = price;
+        item.AvailableStock = availableStock;
+
+        await _dbContext.SaveChangesAsync();
+
+        return item.Id;
+    }
+
+    public async Task<int?> Delete(int id)
+    {
+        var item = await _dbContext.CatalogItems
+            .Where((item) => item.Id == id)
+            .FirstOrDefaultAsync();
+
+        if (item == null)
+        {
+            return null;
+        }
+
+        _dbContext.Remove(item);
+
+        await _dbContext.SaveChangesAsync();
+
+        return id;
     }
 
     public async Task<CatalogItem?> GetByIdAsync(int id)

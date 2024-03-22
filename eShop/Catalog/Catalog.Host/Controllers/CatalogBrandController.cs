@@ -24,7 +24,7 @@ public class CatalogBrandController : ControllerBase
     [ProducesResponseType(typeof(AddItemResponse<int?>), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> Add(CreateBrandRequest request)
     {
-        var result = await _catalogBrandService.Add(request);
+        var result = await _catalogBrandService.Add(request.Brand);
         return Ok(new AddItemResponse<int?>() { Id = result });
     }
 
@@ -32,7 +32,7 @@ public class CatalogBrandController : ControllerBase
     [ProducesResponseType(typeof(AddItemResponse<int?>), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> Update(int id, CreateBrandRequest request)
     {
-        var result = await _catalogBrandService.Update(id, request);
+        var result = await _catalogBrandService.Update(id, request.Brand);
         return Ok(new AddItemResponse<int?>() { Id = result });
     }
 
