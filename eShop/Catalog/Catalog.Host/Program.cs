@@ -16,8 +16,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(Program));
 
 builder.Services.AddTransient<ICatalogItemRepository, CatalogItemRepository>();
-builder.Services.AddTransient<IRepository<CatalogType>, CatalogTypeRepository>();
-builder.Services.AddTransient<IRepository<CatalogBrand>, CatalogBrandRepository>();
+builder.Services.AddTransient<ICatalogTypeRepository, CatalogTypeRepository>();
+builder.Services.AddTransient<ICatalogBrandRepository, CatalogBrandRepository>();
 builder.Services.AddTransient<IRepository<BaseEntity>, Repository<BaseEntity>>();
 builder.Services.AddTransient<ICatalogService, CatalogService>();
 builder.Services.AddTransient<ICatalogItemService, CatalogItemService>();

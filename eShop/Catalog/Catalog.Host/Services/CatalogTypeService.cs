@@ -9,13 +9,13 @@ namespace Catalog.Host.Services;
 
 public class CatalogTypeService : BaseDataService<ApplicationDbContext>, ICatalogTypeService
 {
-    private readonly IRepository<CatalogType> _catalogTypeRepository;
+    private readonly ICatalogTypeRepository _catalogTypeRepository;
     private readonly IMapper _mapper;
 
     public CatalogTypeService(
         IDbContextWrapper<ApplicationDbContext> dbContextWrapper,
         ILogger<BaseDataService<ApplicationDbContext>> logger,
-        IRepository<CatalogType> catalogTypeRepository,
+        ICatalogTypeRepository catalogTypeRepository,
         IMapper mapper)
         : base(dbContextWrapper, logger)
     {
@@ -23,21 +23,14 @@ public class CatalogTypeService : BaseDataService<ApplicationDbContext>, ICatalo
         _mapper = mapper;
     }
 
-    public async Task<int?> Add(CreateTypeRequest item)
+    public async Task<int?> Add(string type)
     {
-        return await ExecuteSafeAsync(() => _catalogTypeRepository.Add(new CatalogType()
-        {
-            Type = item.Type
-        }));
+        return await ExecuteSafeAsync(() => _catalogTypeRepository.Add(type));
     }
 
-    public async Task<int?> Update(int id, CreateTypeRequest item)
+    public async Task<int?> Update(int id, string type)
     {
-        return await ExecuteSafeAsync(() => _catalogTypeRepository.Update(id, new CatalogType()
-        {
-            Id = id,
-            Type = item.Type
-        }));
+        return await ExecuteSafeAsync(() => _catalogTypeRepository.Update(id, type));
     }
 
     public async Task<int?> Delete(int id)

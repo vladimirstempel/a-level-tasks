@@ -1,5 +1,6 @@
 using System.Net;
 using AutoMapper;
+using Catalog.Host.Data.Entities;
 using Catalog.Host.Models.Dtos;
 using Catalog.Host.Models.Requests;
 using Catalog.Host.Models.Response;
@@ -31,7 +32,7 @@ public class CatalogItemController : ControllerBase
     [ProducesResponseType(typeof(AddItemResponse<int?>), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> Add(CreateProductRequest request)
     {
-        var result = await _catalogItemService.Add(request);
+        var result = await _catalogItemService.Add(_mapper.Map<CreateProductRequest, CatalogItem>(request));
         return Ok(new AddItemResponse<int?>() { Id = result });
     }
 
@@ -39,7 +40,7 @@ public class CatalogItemController : ControllerBase
     [ProducesResponseType(typeof(AddItemResponse<int?>), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> Update(int id, CreateProductRequest request)
     {
-        var result = await _catalogItemService.Update(id, request);
+        var result = await _catalogItemService.Update(id, _mapper.Map<CreateProductRequest, CatalogItem>(request));
         return Ok(new AddItemResponse<int?>() { Id = result });
     }
 

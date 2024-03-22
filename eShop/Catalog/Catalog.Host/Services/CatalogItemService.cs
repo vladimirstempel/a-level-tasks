@@ -24,33 +24,29 @@ public class CatalogItemService : BaseDataService<ApplicationDbContext>, ICatalo
         _mapper = mapper;
     }
 
-    public async Task<int?> Add(CreateProductRequest item)
+    public async Task<int?> Add(CatalogItem item)
     {
-        return await ExecuteSafeAsync(() => _catalogItemRepository.Add(new CatalogItem()
-        {
-            Name = item.Name,
-            Description = item.Description,
-            Price = item.Price,
-            PictureFileName = item.PictureFileName,
-            CatalogTypeId = item.CatalogTypeId,
-            CatalogBrandId = item.CatalogBrandId,
-            AvailableStock = item.AvailableStock,
-        }));
+        return await ExecuteSafeAsync(() => _catalogItemRepository.Add(
+            item.Name,
+            item.Description,
+            item.Price,
+            item.AvailableStock,
+            item.CatalogTypeId,
+            item.CatalogBrandId,
+            item.PictureFileName));
     }
 
-    public async Task<int?> Update(int id, CreateProductRequest item)
+    public async Task<int?> Update(int id, CatalogItem item)
     {
-        return await ExecuteSafeAsync(() => _catalogItemRepository.Update(id, new CatalogItem()
-        {
-            Id = id,
-            Name = item.Name,
-            Description = item.Description,
-            Price = item.Price,
-            PictureFileName = item.PictureFileName,
-            CatalogTypeId = item.CatalogTypeId,
-            CatalogBrandId = item.CatalogBrandId,
-            AvailableStock = item.AvailableStock,
-        }));
+        return await ExecuteSafeAsync(() => _catalogItemRepository.Update(
+            id,
+            item.Name,
+            item.Description,
+            item.Price,
+            item.AvailableStock,
+            item.CatalogTypeId,
+            item.CatalogBrandId,
+            item.PictureFileName));
     }
 
     public async Task<int?> Delete(int id)
